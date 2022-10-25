@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Create React App</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        *{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color:rgb(218, 218, 27);
+    background-image: linear-gradient(120deg, #ecee7d 0%, #fda085 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+h1 {
+    font-size: 3rem;
+    margin-top: 10rem;
+    color: rgb(236, 78, 25);
+    margin-left: 25rem;
+}
+
+h1 i {
+    color: rgb(163, 44, 11);
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 10%;
+    background-color:rgb(231, 151, 31);
+    background-image: linear-gradient(120deg, #ecee7d 0%, #fda085 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    
+}
+
+.logo-text a {
+    font-family: "Poppins", sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color:rgba(173, 41, 17, 0.874);
+    text-decoration: none;
+}
+
+.btn {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color:rgb(237, 231, 109);
+    text-decoration: none;
+}
+
+.btn {
+    padding: 9px 25px;
+    background-color:rgb(6, 155, 160);
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease 0s;
+}
+
+.btn:hover {
+    background-color:rgb(13, 8, 0);
+}
+
+.cards {
+    display: table;
+}
+
+.card {
+    font-family: "Candara", fantasy;
+    width: 340px;
+    overflow: hidden;
+    background:rgba(219, 70, 25, 0.9);
+    box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.8);
+    display: inline-block;
+    flex-direction: column;
+    border-radius: 2rem;
+    margin: 2rem;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    object-fit: cover;
+}
+
+.profile-image img {
+    z-index: 1;
+    width: 120px;
+    height: 120px;
+    position: relative;
+    margin-top: -85px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 100px;
+    border: 10px solid rgb(238, 234, 219);
+    transition-duration: 0.4s;
+    transition-property: transform;
+}
+
+.profile-image img:hover {
+    transform: scale(1.1);
+}
+
+.card-content h3 {
+    font-size: 25px;
+    text-align: center;
+    margin-bottom: 11px;
+}
+
+.card-content h2 {
+    font-size: 25px;
+    text-align: center;
+    margin-bottom: 11px;
+    color:black;
+    text-decoration: underline;
+}
+    </style>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo-text">
+            <a href="#">Web Application &nbsp;&nbsp;&nbsp; USER CARD GRID</a>
+        </div>
+        <button class="btn" id="nav-btn" href="#">Get Users</button>
+    </header>
+    <section class="cards" id="cards">
+    </section>
+    <script>
+        let box = document.getElementById("cards");
+let API = async() => {
+    let response = await fetch("https://reqres.in/api/users?page=1");
+    let file = await response.json();
+    let info = file.data
+        .map((element) => {
+            return `<div class="card">                     
+        <div class="card-image">
+            <img src="bg.jpg" alt="">
+        </div>
+        <div class="profile-image">
+            <img src="${element.avatar}" alt="">
+        </div>
+        <div class="card-content">
+            <h3>${element.first_name} ${element.last_name}</h3>
+            <h2>${element.email}</h2>
+            <h3>User ID: ${element.id}</h3>
+        </div>
+    </div>`;
+        })
+        .join("");
+    cards.innerHTML = info;
+};
+let navBtn = document.getElementById("nav-btn");
+navBtn.addEventListener("click", () => {
+    cards.innerHTML = `<h1 class='load'>Scanning Users Data <span><i class="fa fa-spinner fa-spin" style="font-size:24px"></i></span></h1>`;
+    setTimeout(() => {
+        API();
+    }, 2000);
+});
+    </script>
+</body>
+
+</html>
